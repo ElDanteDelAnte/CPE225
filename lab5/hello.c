@@ -23,3 +23,8 @@ int main
     
     return 0;
   }
+
+float my_sqrt(float r)
+{
+	return dummy;
+}

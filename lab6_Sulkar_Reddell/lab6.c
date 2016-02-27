@@ -52,8 +52,6 @@ int function1b(int a, int b){
 	return 0;
 }
 
-}
-
 void writebits()
   {
     //declare array
@@ -118,10 +116,10 @@ void fileToScreen(){
 	FILE* input = fopen("toScreen.txt", "r");
 	
 	//Write a program to open a text file for input and display it on the screen.
-	char content = NULL;
+	char content = 0;
 	while (content != EOF)
 	{
-		fscanf("%c", &content);
+		fscanf(input, "%c", &content);
 		printf("%c", content);
 	}
 	

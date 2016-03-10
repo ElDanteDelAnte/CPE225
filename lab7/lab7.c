@@ -45,8 +45,9 @@ BUFFER* dequeue(QUEUE* qp);
 //MAIN
 int main()
   {
+    /*
 	//create the pool
-	POOL pool;
+	//POOL pool;
 	POOL* poolptr;
 	//initialize the pool
 	init_pool(poolptr, 3, sizeof(BUFFER));
@@ -58,9 +59,8 @@ int main()
 	bufferptr1->data = (BYTE*)"PAYLOAD1";
 	bufferptr2->data = (BYTE*)"PAYLOAD2";
 	bufferptr3->data = (BYTE*)"PAYLOAD3";
-	/***************************************************************************************/
 	//Create the QUEUE
-	QUEUE queue;
+	//QUEUE queue;
 	QUEUE* queueptr;
 	//initialize queue
 	initqueue(queueptr);
@@ -71,9 +71,43 @@ int main()
 	//quick test for freebuffer
 	freebuffer(poolptr,bufferptr3);
 	BUFFER* removedBufferPtr = dequeue(queueptr);
-	char removedData[] = (char*)removedBufferPtr->data; 
+	char* removedData = (char*) (removedBufferPtr->data); 
 	//Print the contents of the dequeued BUFFER
 	printf("This payload was dequeued:, %s \n", removedData);
+	*/
+	
+	POOL pool;
+	init_pool(&pool, 3, sizeof(BUFFER));
+	
+	QUEUE queue;
+	initqueue(&queue);
+	
+    char ref[] = "PAYLOADX";
+    
+    //printf("We initialized the pool and queue.\n");
+    
+    //fill the buffers with payloads and enqueue them
+    for (int buffs = 0; buffs < 3; buffs++)
+      {
+        BUFFER* bp = getbuffer(&pool);    //get buffer from pool
+	    
+	    for (int letter = 0; letter < 9; letter++)
+          bp->data[letter] = (BYTE) ref[letter]; //load payload
+	     
+	     bp->data[7] = (BYTE) ('1' + buffs);       //specify payload
+	     enqueue(&queue, bp);                      //enqueue buffer
+	  }
+    
+    //dequeue the buffers and print their payloads
+    //free each buffer to queue when done
+    for (int i = 0; i < 3; i++)
+      {
+        BUFFER* bp = dequeue(&queue);     //get next buffer from queue
+        
+        printf("Data: %s\n", (char*) (bp->data));  //print data to screen
+        
+        freebuffer(&pool, bp);            //free buffer to pool
+      }
 
   }
 

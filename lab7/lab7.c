@@ -45,7 +45,36 @@ BUFFER* dequeue(QUEUE* qp);
 //MAIN
 int main()
   {
-	
+	//create the pool
+	POOL pool;
+	POOL* poolptr;
+	//initialize the pool
+	init_pool(poolptr, 3, sizeof(BUFFER));
+	//get the 3 BUFFERS
+	BUFFER* bufferptr1 = getbuffer(poolptr);
+	BUFFER* bufferptr2 = getbuffer(poolptr);
+	BUFFER* bufferptr3 = getbuffer(poolptr);
+	//set PAYLOAD values
+	bufferptr1->data = (BYTE*)"PAYLOAD1";
+	bufferptr2->data = (BYTE*)"PAYLOAD2";
+	bufferptr3->data = (BYTE*)"PAYLOAD3";
+	/***************************************************************************************/
+	//Create the QUEUE
+	QUEUE queue;
+	QUEUE* queueptr;
+	//initialize queue
+	initqueue(queueptr);
+	//enqueue the 3 buffers
+	enqueue(queueptr,bufferptr1);
+	enqueue(queueptr,bufferptr2);
+	enqueue(queueptr,bufferptr3);
+	//quick test for freebuffer
+	freebuffer(poolptr,bufferptr3);
+	BUFFER* removedBufferPtr = dequeue(queueptr);
+	char removedData[] = (char*)removedBufferPtr->data; 
+	//Print the contents of the dequeued BUFFER
+	printf("This payload was dequeued:, %s \n", removedData);
+
   }
 
 //PART1

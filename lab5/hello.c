@@ -24,7 +24,12 @@ int main
     return 0;
   }
 
-float my_sqrt(float r)
+float my_sqrt(float x)
 {
-	return dummy;
+	float error = 0.000001;
+	float guess = x/2;
+	while(guess*guess-x>error){
+		guess=guess-(((guess*guess)-x)/(2*guess));
+	}
+	return guess;
 }
